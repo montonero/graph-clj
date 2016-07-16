@@ -15,3 +15,6 @@
 
 
 
+(def es #{})
+
+(contains? (conj es 1) 1)
