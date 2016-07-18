@@ -11,12 +11,12 @@
 ;(view (digraph a))
 
 
-(defn empty-graph [n]
-  (zipmap (range 1 (inc n)) (repeat [])))
+(defn empty-map [n val]
+  (zipmap (range 1 (inc n)) (repeat val)))
 
-(def my-g (merge (empty-graph 6) a))
-my-g
+(def my-g (merge (empty-map 6 []) a))
 (get my-g 1)
+my-g
 
 (defn add-edge [g x y]
   ; add edge (x, y) to graph g
@@ -31,7 +31,6 @@ my-g
 (view (digraph my-g))
 
 (vec (set [1 2 3]))
-
 (conj (set [1 2 3]) 5)
 
 
@@ -111,10 +110,11 @@ my-g
     )
   )
 
+(count my-g)
 
 (defn bfs3 [g start-node]
 
-    (loop [visited-nodes [],
+    (loop [visited-nodes (empty-map (count g) -1),
            steps 1,
            q (conj clojure.lang.PersistentQueue/EMPTY start-node),
            explored #{}]
@@ -123,21 +123,30 @@ my-g
         visited-nodes
         ; visit current-node
         (let [current-node (peek q),
-              q2 (pop q)]
+              q2 (pop q),
+              neighbours (get g current-node),
+              neigh-noexplored (remove explored neighbours)]
           (do
             (println "Visiting: " current-node "Step:" steps)
             (println "Queue: " (seq q) "Explored: " explored)
             (println "removed: " (remove explored (get g current-node))  "non removed: " (get g current-node))
-            (recur (conj visited-nodes current-node) (inc steps) (into q2 (remove explored (get g current-node))) (conj explored current-node))
+            (recur (assoc visited-nodes current-node steps) (inc steps) (into q2 neigh-noexplored) (into explored neighbours))
             )
           )
         )
     )
-
 )
 
 my-g
 
+(def mymap (empty-map (count my-g) -1))
+mymap
+(assoc mymap 3 2)
 (bfs3 my-g 1)
+
+(def mymap2 {0 1, 1 [2 3], 2 [4 5 6], -1 7})
+mymap2
+(clojure.set/map-invert {:a 1, :b 2})
+(clojure.set/map-invert mymap2)
 
 
