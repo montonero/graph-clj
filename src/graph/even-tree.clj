@@ -14,7 +14,7 @@
 (def fg (fly-graph :successors range :weight (constantly 77)))
 
 
-(view g)
+(view wg)
 
 (def a (assoc {} 1 [2]))
 a
