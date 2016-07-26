@@ -32,6 +32,7 @@ my-g
 (conj (list 1 2 3) 'x)
 
 (def x (cons 'x [1 2 3]))
+(def x (into [1 2 3] ['x]))
 (def x (cons 'x (list 1 2 3)))
 x
 (class x)
@@ -50,7 +51,7 @@ l
 (defn dfs [g s]
   (loop [visited #{s},
         queue [s],
-        walk-order []]
+        walk-order '()]
     (if (empty? queue)
       walk-order
       (let [current (peek queue),
@@ -58,6 +59,8 @@ l
             ; add neighbours of a current node to an updated queue
             q' (into (pop queue) (remove visited neighs)),
             v' (into visited neighs)]
+        (println "Visiting: " current " walk-order: " walk-order)
+        (println "Queue: " q' " Neighs: "  (remove visited neighs))
         (recur v' q' (conj walk-order current))
         )
       )
@@ -70,5 +73,27 @@ l
          :4 []
          })
 
+(def GSedg-18-1 { 0 [7 5 2],
+                  1 [7],
+                  2 [0 6],
+                  3 [5 4],
+                  4 [6 5 7 3],
+                  5 [0 4 3],
+                  6 [4 2],
+                  7 [1 0 4]
+                  })
+
+(def GSedg-19-1 { 0 [5 1 6], 1 [], 2 [0 3], 3 [5 2], 4 [3 11 2], 5 [4]
+                  6 [9 4], 7 [6 8], 8 [7 9], 9 [11 10], 10 [12], 11 [12], 12 [9] })
+(def GSedg-19-6 { 0 [1 2 3 5 6], 1 [], 2 [3], 3 [4 5], 4 [9], 5 [], 6 [4 9],
+                  7 [6], 8 [7], 9 [10 11 12], 10 [], 11 [12], 12 [] })
+my-g
 (dfs my-g 0)
+
 (dfs G :1)
+
+(dfs GSedg-19-6 0)
+
+(+ 1 1)
+
+(lio/view (lgraph/digraph GSedg-19-1))
