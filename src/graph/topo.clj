@@ -97,3 +97,9 @@ my-g
 (+ 1 1)
 
 (lio/view (lgraph/digraph GSedg-19-1))
+
+; katas temp
+
+(re-seq #"[A-Z]+" "bA1B3Ce ")
+
+(contains? [1 2 3 4 5] 99)
